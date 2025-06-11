@@ -28,13 +28,13 @@ def fetch_ad_data(token, page):
         address = "نامشخص"
 
 
-    # 💰 استخراج قیمت
+    
     price_elements = page.locator(".kt-unexpandable-row__value").all()
     full_price = price_elements[1].text_content().replace("تومان", "").replace("٬", "").strip() if len(price_elements) > 3 else \
                  price_elements[0].text_content().replace("تومان", "").replace("٬", "").strip() if len(price_elements) > 2 else "نا مشخص"
     price = safe_int(full_price)
     
-    # 🏢 استخراج طبقه
+    
     floor_elements = page.locator(".kt-unexpandable-row__value").all()
     floor_text = floor_elements[3].text_content().strip() if len(floor_elements) > 3 else \
                  floor_elements[2].text_content().strip() if len(floor_elements) > 2 else "نامشخص"
