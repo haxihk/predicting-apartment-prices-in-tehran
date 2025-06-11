@@ -152,7 +152,7 @@ This project showcases a complete ML pipeline for real estate price prediction. 
 - All notebooks and Python scripts  
 - Final trained model  
 - Visualizations and SHAP analysis  
-- README documentation
+
 
 ---
 
