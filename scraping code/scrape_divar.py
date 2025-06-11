@@ -7,7 +7,7 @@ OUTPUT_CSV = "divar_real_estate.csv"
 BASE_URL = "https://divar.ir/v/{token}"
 
 def safe_int(value):
-    """اگر مقدار قابل تبدیل به عدد بود، آن را برگردان، در غیر این صورت مقدار -1"""
+    
     try:
         return int(value.strip())
     except (ValueError, AttributeError):
@@ -15,15 +15,15 @@ def safe_int(value):
 
 def fetch_ad_data(token, page):
     url = BASE_URL.format(token=token.strip())
-     # افزایش timeout و نمایش مرورگر
+     
     page.goto(url, timeout=60000, wait_until="domcontentloaded")
-    time.sleep(5)  # تأخیر برای لود کامل
-    # 📍 استخراج نام منطقه
+    time.sleep(5)  
+    
     address_element = page.locator(".kt-page-title__subtitle--responsive-sized").first
     if address_element.is_visible():
         full_address = address_element.text_content().strip()
-        address_parts = full_address.split("، ")  # تقسیم با کاما و فاصله
-        address = address_parts[-1] if len(address_parts) > 1 else full_address  # گرفتن آخرین بخش (نام منطقه)
+        address_parts = full_address.split("، ")  
+        address = address_parts[-1] if len(address_parts) > 1 else full_address  
     else:
         address = "نامشخص"
 
@@ -46,13 +46,13 @@ def fetch_ad_data(token, page):
     else:
         floor = safe_int(floor_text.split(" ")[0])
 
-    # 📐 استخراج مشخصات اصلی (متراژ، سال ساخت، تعداد اتاق)
+    
     details = page.locator(".kt-group-row-item__value").all()
     area = safe_int(details[0].text_content()) if len(details) > 0 else -1
     year_built = safe_int(details[1].text_content()) if len(details) > 1 else -1
     rooms = safe_int(details[2].text_content()) if len(details) > 2 else -1
 
-    # 🚗 ویژگی‌های ملک (آسانسور، پارکینگ، انباری)
+    
     features = [f.text_content().strip() for f in page.locator(".kt-body--stable").all()]
     elevator = "ندارد" if any("آسانسور ندارد"in f for f in features) else "دارد"
     parking = "ندارد" if any("پارگینگ ندارد" in f for f in features) else "دارد"
@@ -72,13 +72,13 @@ def fetch_ad_data(token, page):
     }
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)  # نمایش مرورگر برای بررسی
+    browser = p.chromium.launch(headless=True) 
     page = browser.new_page()
 
     with open(TOKENS_FILE, "r", encoding="utf-8") as file:
         tokens = file.readlines()
 
-    with open(OUTPUT_CSV, "w", encoding="utf-8-sig", newline="") as csvfile:  # ذخیره به‌صورت UTF-8-SIG برای Excel
+    with open(OUTPUT_CSV, "w", encoding="utf-8-sig", newline="") as csvfile: 
         fieldnames = ["token", "address", "price", "floor", "area", "year_built", "rooms", "elevator", "parking", "warehouse"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -91,4 +91,5 @@ with sync_playwright() as p:
 
     browser.close()
 
-print(f"\n✅ فایل CSV با اطلاعات آگهی‌ها ذخیره شد: {OUTPUT_CSV}")
+print(f"\n✅ done,save in a csv file: {OUTPUT_CSV}")
+
