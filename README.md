@@ -9,15 +9,15 @@ A professional machine learning project for predicting real estate prices using 
 
 ## 📌 Table of Contents
 
-1. [Introduction](#1-introduction)  
-2. [Data Preparation](#2-data-preparation)  
-3. [Model Development](#3-model-development)  
-4. [Final Model and Testing](#4-final-model-and-testing)  
-5. [Model Interpretation](#5-model-interpretation-and-analysis)  
-6. [Model Saving & Reproducibility](#6-model-saving-and-reproducibility)  
-7. [Key Achievements](#7-key-achievements-and-best-practices)  
-8. [Conclusion](#8-conclusion)  
-9. [Future Work](#9-recommendations-for-future-work)  
+1. [Introduction](#1--introduction)  
+2. [Data Preparation](#2--data-preparation)  
+3. [Model Development](#3--model-development)  
+4. [Final Model and Testing](#4--final-model-and-testing)  
+5. [Model Interpretation](#5--model-interpretation-and-analysis)  
+6. [Model Saving & Reproducibility](#6--model-saving-and-reproducibility)  
+7. [Key Achievements](#7--key-achievements-and-best-practices)  
+8. [Conclusion](#8--conclusion)  
+9. [Future Work](#9--recommendations-for-future-work)  
 
 ---
 
