@@ -1,21 +1,21 @@
 import requests
 import time
 
-# URL API دیوار
+
 url = "https://api.divar.ir/v8/postlist/w/search"
 
-# هدرهای درخواست برای جلوگیری از بلاک شدن
+
 headers = {
     "Content-Type": "application/json",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
 }
 
-# تعداد آگهی‌هایی که می‌خواهیم دریافت کنیم
-MAX_TOKENS = 2000
-RETRY_LIMIT = 5  # تعداد تلاش مجدد در صورت خطا
-DELAY_BETWEEN_REQUESTS = 0.5  # کاهش تأخیر برای افزایش سرعت
 
-# استفاده از `requests.Session()` برای افزایش سرعت و پایداری
+MAX_TOKENS = 2000
+RETRY_LIMIT = 5  
+DELAY_BETWEEN_REQUESTS = 0.5  
+
+
 session = requests.Session()
 session.headers.update(headers)
 
@@ -50,7 +50,7 @@ while count < MAX_TOKENS:
         }
     }
 
-    # حذف `last_post_date` در درخواست اول
+    
     if last_post_date is None:
         del payload["pagination_data"]["last_post_date"]
 
@@ -68,9 +68,9 @@ while count < MAX_TOKENS:
 
             data = res.json()
             last_post_date = data.get("last_post_date")
-            page += 1  # افزایش شماره صفحه
+            page += 1  
 
-            # پردازش هر آگهی در `list_widgets`
+            
             for widget in data.get("list_widgets", []):
                 try:
                     token = widget["data"]["action"]["payload"]["token"]
@@ -79,26 +79,26 @@ while count < MAX_TOKENS:
                         count += 1
                         print(f"✅ {count}: {token}")
                 except KeyError:
-                    continue  # رد کردن آگهی‌های نامعتبر
+                    continue  
 
-            time.sleep(DELAY_BETWEEN_REQUESTS)  # کاهش تأخیر برای افزایش سرعت
+            time.sleep(DELAY_BETWEEN_REQUESTS)  
 
             if not data.get("list_widgets"):
                 print("🚫 دیگر آگهی جدیدی یافت نشد.")
                 break
 
-            break  # اگر موفق شد، از حلقه `retry` خارج شود
+            break  
 
         except requests.exceptions.RequestException as e:
             print(f"❌ خطا در دریافت داده: {e}")
             retries += 1
-            time.sleep(3)  # انتظار برای تلاش مجدد
+            time.sleep(3)  
 
     if retries == RETRY_LIMIT:
         print("🚨 چندین تلاش ناموفق، توقف برنامه.")
         break
 
-# ذخیره توکن‌ها در فایل یکجا برای بهبود سرعت
+
 with open("tokens.txt", "w", encoding="utf-8") as txt_file:
     txt_file.write("\n".join(list_of_tokens))
 
